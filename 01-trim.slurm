@@ -7,8 +7,11 @@
 #SBATCH --mem=8000
 #SBATCH -c 4
 
-source cutadapt-1.9.1
-source fastqc-0.11.3
+#source cutadapt-1.9.1
+#source fastqc-0.11.3
+
+source trim_galore-0.4.2
+
 
 ARRAY=(SRR6989572_1.fastq.gz  SRR6989573_1.fastq.gz  SRR6989580_1.fastq.gz  SRR6989581_1.fastq.gz)
 
