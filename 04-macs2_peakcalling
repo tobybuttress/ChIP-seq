@@ -1,0 +1,18 @@
+#!/bin/bash -e
+#SBATCH -p jic-medium
+#SBATCH -t 0-48:00 # time (D-HH:MM)
+#SBATCH --mail-type=END,FAIL # #notifications for job done & fail
+#SBATCH --mail-user=Toby.Buttress@JIC.ac.uk # send-to address
+#SBATCH --mem=16000
+#SBATCH -c 8
+
+source bowtie2-2.3.4.1
+source samtools-1.7
+
+# SRR6989572_1_trimmed.fq.gz SRR6989580_1_trimmed.fq.gz
+
+source macs-2.0.10
+
+# Col_0_seedling580_anti-H2Bub-ChIP-DNA.bam Col_0_seedling572_anti-H2Bub-input-DNA.bam
+
+srun macs2 callpeak -t Col_0_seedling580_anti-H2Bub-ChIP-DNA.bam -c Col_0_seedling572_anti-H2Bub-input-DNA.bam -f BAM -g hs -n Col_0_seedling580_anti-H2Bub-ChIP-DNA-out -B -q 0.01
