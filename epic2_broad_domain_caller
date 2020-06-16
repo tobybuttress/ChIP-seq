@@ -1,0 +1,11 @@
+### Run epic2 (SICER implementation)
+### Run on cluster or interactive node
+### A thaliana effect genome size is 0.78 
+
+epic2 -t TREATMENT.bam -c CONTROL.bam -cs TAIR10_cs.chrom.sizes -egf 0.78 -o OUTPUT.bed
+
+### Remove header, filter for p<0.05 and print bed
+
+cat OUTPUT.bed | tail -n +2 | awk '{OFS="\t";  if ($4<0.05) print $1,$2,$3}' > OUTPUT_FILT.bed
+
+### Use bed file for downstream analysis
