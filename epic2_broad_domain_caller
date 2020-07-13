@@ -2,6 +2,8 @@
 ### Run on cluster or interactive node
 ### A thaliana effect genome size is 0.78 
 
+export PATH="$HOME/miniconda/bin:$PATH"
+
 epic2 -t TREATMENT.bam -c CONTROL.bam -cs TAIR10_cs.chrom.sizes -egf 0.78 -o OUTPUT.bed
 
 ### Remove header, filter for p<0.05 and print bed
