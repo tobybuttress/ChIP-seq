@@ -1,0 +1,17 @@
+### Make tag directories
+
+Run 09-HOMER-makeTagDirectory.slurm
+
+### Find peaks
+
+Run 10-HOMER-findPeaks.slurm
+
+### Filter peaks (FC>2;p<0.05;size>100bp)
+
+Copy data from raw output to new tab file
+
+cat output_raw.txt | awk -v OFS='\t' '{if ($7>99) print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12}' | awk -v OFS='\t' '{if ($11>1.999) print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12}' | awk -v OFS='\t' '{if ($12<0.05) print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12}' > output_filt.txt
+
+### Make bed file
+
+cat output_filt.txt | awk -v OFS='\t' '{print $2,$3,$4}' > output_filt.bed
