@@ -1,0 +1,29 @@
+### filter for w50 greater than 0.5 enrichment
+
+cat H2B8-GFP_GBP_pollen_rep2_6Jvs6D_I130X200_w50.bedGraph | awk -v 'OFS=\t' '{if ($4>0.5) print $1,$2,$3}' > H2B8_sperm_w50_greater05.bed
+
+### merge w50s within 501 bp
+
+source bedtools-2.28.0
+
+bedtools merge -d 501 -i H2B8_sperm_w50_greater05.bed > H2B8_sperm_w50_greater05_merge501.bed
+
+### filter for regions over 201 bp
+
+cat H2B8_sperm_w50_greater05_merge501.bed | awk -v 'OFS=\t' '{print $1,$2,$3,$3-$2}' | awk -v 'OFS=\t' '{if ($4>201) print $1,$2,$3}' > H2B8_sperm_w50_greater05_merge501_over201.bed
+
+### get average enrichment over merged regions
+
+source deeptools-3.1.1
+
+multiBigwigSummary BED-file -b H2B8-GFP_GBP_pollen_rep2_6Jvs6D_w1.bw --BED H2B8_sperm_w50_greater05_merge501_over201.bed --labels H2B8 -out H2B8_sperm_w50_greater05_merge501_over201_MBS.npz --outRawCounts H2B8_sperm_w50_greater05_merge501_over201_MBS.tab
+
+### remove chrc and chrm
+
+### convert from .tab to .bed
+
+cat H2B8_sperm_w50_greater05_merge501_over201_MBS.tab > H2B8_sperm_w50_greater05_merge501_over201_MBS.bed
+
+### filter for greater than 0.5 enrichment
+
+cat H2B8_sperm_w50_greater05_merge501_over201_MBS.bed | awk -v 'OFS=\t' '{if ($4>0.5) print $1,$2,$3}' > H2B8_sperm_w50_greater05_merge501_over201_MBS_greater05.bed
